@@ -92,10 +92,12 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: mainCellReuseIdentifier, for: indexPath) as! MainTableViewCell
         
-        if let rowsArray = viewModel?.rowsArray, let imageHref = (rowsArray[indexPath.row]).imageHref {
+        if let rowsArray = viewModel?.rowsArray {
             cell.titleLabel.text = (rowsArray[indexPath.row]).title
             cell.descriptionLabel.text = (rowsArray[indexPath.row]).description
-            cell.imageHref.sd_setImage(with: URL(string: imageHref), placeholderImage: UIImage(named: "PlaceholderImage"))
+            if let imageHref = (rowsArray[indexPath.row]).imageHref {
+                cell.imageHref.sd_setImage(with: URL(string: imageHref), placeholderImage: UIImage(named: "PlaceholderImage"))
+            }
         }
         
         return cell
