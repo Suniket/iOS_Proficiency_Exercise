@@ -6,13 +6,13 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MainViewController: UIViewController {
 
     var viewModel: MainViewModel?
     
     private let mainCellReuseIdentifier = "MainTableViewCell"
-
 
     lazy var tableView: UITableView = {
         let table = UITableView()
@@ -29,15 +29,17 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel?.viewIsLoading()
         viewModel?.delegate = self
-        
-        updateLoadingState()
+        refreshView()
         
         self.view.addSubview(tableView)
         self.view.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.backgroundColor = UIColor.white
         setupTableView()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:
+                                                                    UIBarButtonItem.SystemItem.refresh, target: self, action:
+                                                                        #selector(refreshView))
     }
     
     func setupTableView() {
@@ -68,6 +70,11 @@ class MainViewController: UIViewController {
             }
         }
     }
+    
+    @objc func refreshView() {
+        viewModel?.refresh()
+        updateLoadingState()
+    }
 }
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
@@ -83,21 +90,17 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: mainCellReuseIdentifier, for: indexPath) as! MainTableViewCell
         
-        if let rowsArray = viewModel?.rowsArray {
+        if let rowsArray = viewModel?.rowsArray, let imageHref = (rowsArray[indexPath.row]).imageHref {
             cell.titleLabel.text = (rowsArray[indexPath.row]).title
             cell.descriptionLabel.text = (rowsArray[indexPath.row]).description
+            cell.imageHref.sd_setImage(with: URL(string: imageHref), placeholderImage: UIImage(named: "PlaceholderImage"))
         }
         
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-           tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

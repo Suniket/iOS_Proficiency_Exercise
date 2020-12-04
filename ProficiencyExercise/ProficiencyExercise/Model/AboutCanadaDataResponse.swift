@@ -16,7 +16,7 @@ struct AboutCanadaDataResponse: Codable {
 
 }
 
-struct Rows: Codable {
+struct Rows: Codable, Equatable {
     
     let title: String?
     

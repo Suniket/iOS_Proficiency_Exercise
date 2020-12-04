@@ -67,7 +67,7 @@ class MainViewModel: NSObject {
         return viewController
     }
     
-    func viewIsLoading() {
+    func refresh() {
         isLoading = true
         loadCanadaData()
     }
@@ -85,8 +85,15 @@ extension MainViewModel {
             
             self?.title = response.title
             self?.rowsArray = response.rows
+            
+            for (index, rows) in (self?.rowsArray ?? []).enumerated() {
+                if (rows.title == nil) && (rows.description == nil) && (rows.imageHref == nil) {
+                    self?.rowsArray.remove(at: index)
+                }
+            }
+            
             self?.isLoading = false
         })
     }
-
+    
 }
