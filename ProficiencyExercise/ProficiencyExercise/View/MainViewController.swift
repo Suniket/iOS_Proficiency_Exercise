@@ -23,6 +23,7 @@ class MainViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.rowHeight = UITableView.automaticDimension
         table.estimatedRowHeight = 44
+        table.tableFooterView = UIView()
         table.register(MainTableViewCell.self, forCellReuseIdentifier: mainCellReuseIdentifier)
         return table
     }()

@@ -43,7 +43,7 @@ class MainTableViewCell: UITableViewCell {
             "description" : descriptionLabel
         ] as [String : Any]
 
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[image(45)]", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-5-[image(45)]", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[title]-[description]-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[title]-[image(45)]-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[description]-[image(45)]-|", options: [], metrics: nil, views: viewsDict))

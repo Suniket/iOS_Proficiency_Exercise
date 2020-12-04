@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,7 +11,6 @@
 		54D1147B9DC606E5D759D330 /* Pods_ProficiencyExercise.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79F59B0DA0147A03BEE26506 /* Pods_ProficiencyExercise.framework */; };
 		EFCA8F3E2579075300192E7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCA8F3D2579075300192E7C /* AppDelegate.swift */; };
 		EFCA8F422579075300192E7C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCA8F412579075300192E7C /* MainViewController.swift */; };
-		EFCA8F452579075300192E7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFCA8F432579075300192E7C /* Main.storyboard */; };
 		EFCA8F472579075600192E7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFCA8F462579075600192E7C /* Assets.xcassets */; };
 		EFCA8F4A2579075600192E7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFCA8F482579075600192E7C /* LaunchScreen.storyboard */; };
 		EFCA8F552579075600192E7C /* ProficiencyExerciseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCA8F542579075600192E7C /* ProficiencyExerciseTests.swift */; };
@@ -53,7 +52,6 @@
 		EFCA8F3A2579075300192E7C /* ProficiencyExercise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProficiencyExercise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFCA8F3D2579075300192E7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFCA8F412579075300192E7C /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		EFCA8F442579075300192E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EFCA8F462579075600192E7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EFCA8F492579075600192E7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFCA8F4B2579075600192E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				100A1179106E915D0E545B9B /* Pods-ProficiencyExerciseTests.debug.xcconfig */,
 				B638D223E8A4A9A8D6B1B292 /* Pods-ProficiencyExerciseTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -141,7 +138,6 @@
 				EFCA8FE72579C0FC00192E7C /* View */,
 				EFCA8FE82579C0FC00192E7C /* ViewModel */,
 				EFCA8F3D2579075300192E7C /* AppDelegate.swift */,
-				EFCA8F432579075300192E7C /* Main.storyboard */,
 				EFCA8F462579075600192E7C /* Assets.xcassets */,
 				EFCA8F482579075600192E7C /* LaunchScreen.storyboard */,
 				EFCA8F4B2579075600192E7C /* Info.plist */,
@@ -320,7 +316,6 @@
 			files = (
 				EFCA8F4A2579075600192E7C /* LaunchScreen.storyboard in Resources */,
 				EFCA8F472579075600192E7C /* Assets.xcassets in Resources */,
-				EFCA8F452579075300192E7C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,14 +484,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		EFCA8F432579075300192E7C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EFCA8F442579075300192E7C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		EFCA8F482579075600192E7C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
