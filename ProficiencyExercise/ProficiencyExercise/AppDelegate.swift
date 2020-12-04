@@ -12,10 +12,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    var viewModel: MainViewModel?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UINavigationController(rootViewController: MainViewController())
+
+        viewModel = MainViewModel()
+        
+        if let viewController = (viewModel?.makeViewController()) as? MainViewController {
+            viewController.viewModel = viewModel
+            window?.rootViewController = UINavigationController(rootViewController: viewController)
+        }
+
         window?.makeKeyAndVisible()
         return true
     }

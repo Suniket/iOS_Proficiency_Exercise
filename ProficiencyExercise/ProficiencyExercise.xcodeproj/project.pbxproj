@@ -14,6 +14,10 @@
 		EFCA8F4A2579075600192E7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFCA8F482579075600192E7C /* LaunchScreen.storyboard */; };
 		EFCA8F552579075600192E7C /* ProficiencyExerciseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCA8F542579075600192E7C /* ProficiencyExerciseTests.swift */; };
 		EFCA8F602579075600192E7C /* ProficiencyExerciseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCA8F5F2579075600192E7C /* ProficiencyExerciseUITests.swift */; };
+		EFCA8F80257923BB00192E7C /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCA8F7F257923BB00192E7C /* MainTableViewCell.swift */; };
+		EFCA8FC02579360800192E7C /* AboutCanadaDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCA8FBF2579360800192E7C /* AboutCanadaDataResponse.swift */; };
+		EFCA8FD42579434E00192E7C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCA8FD32579434E00192E7C /* NetworkManager.swift */; };
+		EFCA8FDF2579A94800192E7C /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCA8FDE2579A94800192E7C /* MainViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		EFCA8F5B2579075600192E7C /* ProficiencyExerciseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProficiencyExerciseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFCA8F5F2579075600192E7C /* ProficiencyExerciseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProficiencyExerciseUITests.swift; sourceTree = "<group>"; };
 		EFCA8F612579075600192E7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EFCA8F7F257923BB00192E7C /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		EFCA8FBF2579360800192E7C /* AboutCanadaDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCanadaDataResponse.swift; sourceTree = "<group>"; };
+		EFCA8FD32579434E00192E7C /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		EFCA8FDE2579A94800192E7C /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,8 +105,11 @@
 		EFCA8F3C2579075300192E7C /* ProficiencyExercise */ = {
 			isa = PBXGroup;
 			children = (
+				EFCA8FE62579C0FC00192E7C /* Model */,
+				EFCA8FE92579C0FC00192E7C /* Networking */,
+				EFCA8FE72579C0FC00192E7C /* View */,
+				EFCA8FE82579C0FC00192E7C /* ViewModel */,
 				EFCA8F3D2579075300192E7C /* AppDelegate.swift */,
-				EFCA8F412579075300192E7C /* MainViewController.swift */,
 				EFCA8F432579075300192E7C /* Main.storyboard */,
 				EFCA8F462579075600192E7C /* Assets.xcassets */,
 				EFCA8F482579075600192E7C /* LaunchScreen.storyboard */,
@@ -123,6 +134,39 @@
 				EFCA8F612579075600192E7C /* Info.plist */,
 			);
 			path = ProficiencyExerciseUITests;
+			sourceTree = "<group>";
+		};
+		EFCA8FE62579C0FC00192E7C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				EFCA8FBF2579360800192E7C /* AboutCanadaDataResponse.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		EFCA8FE72579C0FC00192E7C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				EFCA8F412579075300192E7C /* MainViewController.swift */,
+				EFCA8F7F257923BB00192E7C /* MainTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		EFCA8FE82579C0FC00192E7C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				EFCA8FDE2579A94800192E7C /* MainViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		EFCA8FE92579C0FC00192E7C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				EFCA8FD32579434E00192E7C /* NetworkManager.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,8 +299,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFCA8FD42579434E00192E7C /* NetworkManager.swift in Sources */,
 				EFCA8F422579075300192E7C /* MainViewController.swift in Sources */,
+				EFCA8FC02579360800192E7C /* AboutCanadaDataResponse.swift in Sources */,
+				EFCA8F80257923BB00192E7C /* MainTableViewCell.swift in Sources */,
 				EFCA8F3E2579075300192E7C /* AppDelegate.swift in Sources */,
+				EFCA8FDF2579A94800192E7C /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
