@@ -9,11 +9,16 @@ import UIKit
 import Foundation
 
 protocol MainViewModelDelegate: AnyObject {
-
+    
+    /// Method to notify abouty loading state.
+    /// - Parameters:
+    ///   - viewModel: MainViewModel
+    ///   - isLoading: Loading status
     func viewModel(_ viewModel: MainViewModel, loadingStateDidChange isLoading: Bool)
     
 }
 
+//ViewModel to show data on main screen.
 class MainViewModel: NSObject {
     
     var rowsArray = [Rows]()
@@ -21,6 +26,13 @@ class MainViewModel: NSObject {
     var title: String?
     
     weak var delegate: MainViewModelDelegate?
+    
+    private let networkManager: NetworkManagerInjecting
+    
+    /// Dependency injected..
+    init(with networkManager: NetworkManagerInjecting) {
+        self.networkManager = networkManager
+    }
 
     /// Indicates whether the view is considered to be loading. The default is
     /// `false`. Setting this property automatically updates the delegate.
@@ -32,7 +44,8 @@ class MainViewModel: NSObject {
         }
     }
     
-    var viewControllerClass: UIViewController.Type {
+    ///  Responsible to create ViewController class.
+    private var viewControllerClass: UIViewController.Type {
         let className = NSStringFromClass(type(of: self))
         
         let possibleTypeName = className.replacingOccurrences(of: "ViewModel", with: "") + "ViewController"
@@ -67,17 +80,20 @@ class MainViewModel: NSObject {
         return viewController
     }
     
+    
+    /// Refresh view.
     func refresh() {
         isLoading = true
         loadCanadaData()
     }
 }
 
+// MARK: - Networking
 extension MainViewModel {
     
     func loadCanadaData() {
         
-        NetworkManager.loadData(withCompletion: { [weak self] response in
+        networkManager.loadData(withCompletion: { [weak self] response in
             
             guard let response = response else {
                 return

@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        viewModel = MainViewModel()
+        viewModel = MainViewModel(with: NetworkManager.shared)
         
         if let viewController = (viewModel?.makeViewController()) as? MainViewController {
             viewController.viewModel = viewModel

@@ -7,9 +7,19 @@
 
 import Foundation
 
-class NetworkManager {
+protocol NetworkManagerInjecting {
     
-    static func loadData(withCompletion completion: @escaping (AboutCanadaDataResponse?) -> Void) {
+    /// Calls a service and load data into response.
+    /// - Parameter completion: Response from network call.
+    func loadData(withCompletion completion: @escaping (AboutCanadaDataResponse?) -> Void)
+}
+
+/// Class to handle networking related activities.
+class NetworkManager: NetworkManagerInjecting {
+    
+    static let shared = NetworkManager()
+    
+     func loadData(withCompletion completion: @escaping (AboutCanadaDataResponse?) -> Void) {
         let session = URLSession.shared
         let url = URL(string: "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json")!
         let task = session.dataTask(with: url) { data, response, error in

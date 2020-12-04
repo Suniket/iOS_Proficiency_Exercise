@@ -8,6 +8,7 @@
 import UIKit
 import SDWebImage
 
+/// Only screen to show tabular data.
 class MainViewController: UIViewController {
 
     var viewModel: MainViewModel?
@@ -77,6 +78,7 @@ class MainViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource, UITableViewDelegate methods
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -105,6 +107,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
+// MARK: - MainViewModelDelegate methods
 extension MainViewController: MainViewModelDelegate {
     
     func viewModel(_ viewModel: MainViewModel, loadingStateDidChange isLoading: Bool) {
