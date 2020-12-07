@@ -11,7 +11,7 @@ import SDWebImage
 /// Only screen to show tabular data.
 class MainViewController: UIViewController {
 
-    var viewModel: MainViewModel?
+    var viewModel = MainViewModel()
     
     private let mainCellReuseIdentifier = "MainTableViewCell"
 
@@ -31,7 +31,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel?.delegate = self
+        viewModel.delegate = self
         refreshView()
         
         self.view.addSubview(tableView)
@@ -40,8 +40,9 @@ class MainViewController: UIViewController {
         setupTableView()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem:
-                                                                    UIBarButtonItem.SystemItem.refresh, target: self, action:
-                                                                        #selector(refreshView))
+                                                                    UIBarButtonItem.SystemItem.refresh,
+                                                            target: self,
+                                                            action: #selector(refreshView))
     }
     
     func setupTableView() {
@@ -53,28 +54,35 @@ class MainViewController: UIViewController {
     
     func updateLoadingState() {
         
-        if viewModel?.isLoading == true {
+        if viewModel.isLoading == true {
             let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
             
             let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
             loadingIndicator.hidesWhenStopped = true
             loadingIndicator.style = UIActivityIndicatorView.Style.gray
             loadingIndicator.startAnimating();
-            
             alert.view.addSubview(loadingIndicator)
             present(alert, animated: true, completion: nil)
         } else {
-            DispatchQueue.main.async {[weak self] in
+            DispatchQueue.main.async { [weak self] in
                 self?.dismiss(animated: false, completion: {
-                    self?.title = self?.viewModel?.title
-                    self?.tableView.reloadData()
+                    if let alertViewModel = self?.viewModel.errorAlertViewModel {
+                        
+                        let alert = UIAlertController.buildAlertController(for: alertViewModel)
+                        self?.present(alert, animated: true)
+                        
+                    } else {
+                        self?.title = self?.viewModel.title
+                        self?.tableView.reloadData()
+                    }
                 })
+                
             }
         }
     }
     
     @objc func refreshView() {
-        viewModel?.refresh()
+        viewModel.refresh()
         updateLoadingState()
     }
 }
@@ -87,18 +95,16 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.rowsArray.count ?? 0
+        return viewModel.rowsArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: mainCellReuseIdentifier, for: indexPath) as! MainTableViewCell
         
-        if let rowsArray = viewModel?.rowsArray {
-            cell.titleLabel.text = (rowsArray[indexPath.row]).title
-            cell.descriptionLabel.text = (rowsArray[indexPath.row]).description
-            if let imageHref = (rowsArray[indexPath.row]).imageHref {
-                cell.imageHref.sd_setImage(with: URL(string: imageHref), placeholderImage: UIImage(named: "PlaceholderImage"))
-            }
+        cell.titleLabel.text = (viewModel.rowsArray[indexPath.row]).title
+        cell.descriptionLabel.text = (viewModel.rowsArray[indexPath.row]).description
+        if let imageHref = (viewModel.rowsArray[indexPath.row]).imageHref {
+            cell.imageHref.sd_setImage(with: URL(string: imageHref), placeholderImage: UIImage(named: "PlaceholderImage"))
         }
         
         return cell

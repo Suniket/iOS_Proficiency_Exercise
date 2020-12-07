@@ -7,44 +7,64 @@
 
 import Foundation
 
-protocol NetworkManagerInjecting {
-    
-    /// Calls a service and load data into response.
-    /// - Parameter completion: Response from network call.
-    func loadData(withCompletion completion: @escaping (AboutCanadaDataResponse?) -> Void)
-}
-
 /// Class to handle networking related activities.
-class NetworkManager: NetworkManagerInjecting {
+class NetworkManager {
+        
+    private let session: URLSessionProtocol
     
-    static let shared = NetworkManager()
+    init(session: URLSessionProtocol) {
+        self.session = session
+    }
     
-     func loadData(withCompletion completion: @escaping (AboutCanadaDataResponse?) -> Void) {
-        let session = URLSession.shared
-        let url = URL(string: "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json")!
-        let task = session.dataTask(with: url) { data, response, error in
-            guard let data = data else {
-                completion(nil)
-                return
-            }
-           
-            let responseStrInISOLatin = String(data: data, encoding: String.Encoding.isoLatin1)
-            guard let modifiedDataInUTF8Format = responseStrInISOLatin?.data(using: String.Encoding.utf8) else {
-                  print("could not convert data to UTF-8 format")
-                  return
-             }
-            do {
-                let responseJSONDict = try JSONSerialization.jsonObject(with: modifiedDataInUTF8Format)
-                print(responseJSONDict)
-                
-                if let responseData = try? JSONSerialization.data(withJSONObject: responseJSONDict) {
-                    let wrapper = try? JSONDecoder().decode(AboutCanadaDataResponse.self, from: responseData)
-                    completion(wrapper)
-                }
-            } catch {
-                print(error)
-            }
+    func loadData<T>(from url: String, type: T.Type, withCompletion completion: @escaping (NetworkResponse<T>) -> ()) where T: Decodable {
+        let url = URL(string: url)!
+        let task = session.dataTask(url: url) { [weak self] data, response, error in
+            let httpResponse = response as? HTTPURLResponse
+            self?.handleDataResponse(data: data, response: httpResponse, error: error, completion: completion)
         }
         task.resume()
+    }
+    
+    private func handleDataResponse<T: Decodable>(data: Data?, response: HTTPURLResponse?, error: Error?, completion: (NetworkResponse<T>) -> ()) {
+        
+        guard let error = error as NSError? else {
+            
+            guard let data = data else { return completion(.failure(.noJSONData)) }
+            
+            let responseStrInISOLatin = String(data: data, encoding: String.Encoding.isoLatin1)
+            guard let modifiedDataInUTF8Format = responseStrInISOLatin?.data(using: String.Encoding.utf8) else {
+                return completion(.failure(.noJSONData))
+            }
+            do {
+                let responseJSONDict = try JSONSerialization.jsonObject(with: modifiedDataInUTF8Format)
+                
+                if let responseData = try? JSONSerialization.data(withJSONObject: responseJSONDict) {
+                    do {
+                        let model = try JSONDecoder().decode(T.self, from: responseData)
+                        return completion(.success(model))
+                    } catch {
+                        return completion(.failure(.unknown))
+                    }
+                }
+            } catch {
+                return completion(.failure(.unknown))
+            }
+            return completion(.failure(.unknown))
+        }
+        
+        /// Errors
+        switch error.code {
+        case NSURLErrorBadURL, NSURLErrorUnsupportedURL:
+            completion(.failure(.unhandled(error)))
+            
+        case NSURLErrorNotConnectedToInternet, NSURLErrorNetworkConnectionLost, NSURLErrorInternationalRoamingOff:
+            completion(.failure(.noInternetConnection))
+            
+        case NSURLErrorTimedOut:
+            completion(.failure(.timedOut))
+            
+        default:
+            completion(.failure(.unhandled(error)))
+        }
     }
 }

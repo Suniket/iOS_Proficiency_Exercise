@@ -8,6 +8,8 @@
 import UIKit
 import Foundation
 
+private let endpointBaseUrl = "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json"
+
 protocol MainViewModelDelegate: AnyObject {
     
     /// Method to notify abouty loading state.
@@ -27,13 +29,10 @@ class MainViewModel: NSObject {
     
     weak var delegate: MainViewModelDelegate?
     
-    private let networkManager: NetworkManagerInjecting
-    
-    /// Dependency injected..
-    init(with networkManager: NetworkManagerInjecting) {
-        self.networkManager = networkManager
-    }
+    var errorAlertViewModel: AlertViewModel?
 
+    var networkManager = NetworkManager(session: URLSession.shared)
+    
     /// Indicates whether the view is considered to be loading. The default is
     /// `false`. Setting this property automatically updates the delegate.
     var isLoading: Bool = false {
@@ -44,8 +43,8 @@ class MainViewModel: NSObject {
         }
     }
     
-    ///  Responsible to create ViewController class.
-    private var viewControllerClass: UIViewController.Type {
+    ///  Responsible to return name of ViewController class.
+    var viewControllerClass: UIViewController.Type {
         let className = NSStringFromClass(type(of: self))
         
         let possibleTypeName = className.replacingOccurrences(of: "ViewModel", with: "") + "ViewController"
@@ -72,14 +71,6 @@ class MainViewModel: NSObject {
         
         return UIViewController.self
     }
- 
-    func makeViewController() -> UIViewController {
-        let stepVCType = self.viewControllerClass
-        let viewController: UIViewController
-        viewController = (stepVCType as UIViewController.Type).init()
-        return viewController
-    }
-    
     
     /// Refresh view.
     func refresh() {
@@ -93,23 +84,34 @@ extension MainViewModel {
     
     func loadCanadaData() {
         
-        networkManager.loadData(withCompletion: { [weak self] response in
+        networkManager.loadData(from: endpointBaseUrl, type: AboutCanadaDataResponse.self) { [weak self] response in
             
-            guard let response = response else {
-                return
-            }
-            
-            self?.title = response.title
-            self?.rowsArray = response.rows
-            
-            for (index, rows) in (self?.rowsArray ?? []).enumerated() {
-                if (rows.title == nil) && (rows.description == nil) && (rows.imageHref == nil) {
-                    self?.rowsArray.remove(at: index)
+            switch response {
+            case let .success(aboutCanadaDataResponse):
+                
+                self?.title = aboutCanadaDataResponse.title
+                self?.rowsArray = aboutCanadaDataResponse.rows
+                
+                for (index, rows) in (self?.rowsArray ?? []).enumerated() {
+                    if (rows.title == nil) && (rows.description == nil) && (rows.imageHref == nil) {
+                        self?.rowsArray.remove(at: index)
+                    }
                 }
-            }
+                
+                self?.isLoading = false
+                
+            case let .failure(error):
             
-            self?.isLoading = false
-        })
+                let alertViewModel = AlertViewModel(actionModels: [AlertViewModel.ActionModel(title: "OK", style: .cancel, handler: nil)],
+                                                title: "Error",
+                                                message: error.errorDescription,
+                                                prefferedStyle: .alert)
+            
+                self?.errorAlertViewModel = alertViewModel
+                self?.isLoading = false
+                
+            }
+        }
     }
     
 }
