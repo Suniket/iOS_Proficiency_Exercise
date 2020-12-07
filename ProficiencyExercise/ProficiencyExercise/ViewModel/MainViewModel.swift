@@ -98,6 +98,7 @@ extension MainViewModel {
                     }
                 }
                 
+                self?.errorAlertViewModel = nil
                 self?.isLoading = false
                 
             case let .failure(error):
