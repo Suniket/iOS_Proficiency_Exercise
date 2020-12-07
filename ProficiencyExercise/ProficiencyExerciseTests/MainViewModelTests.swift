@@ -37,7 +37,7 @@ class MainViewModelTests: XCTestCase {
         testObject.refresh()
         
         //Then
-        XCTAssertTrue(delegate.loadingStateDidChangeCount == 0)
+        XCTAssertTrue(delegate.loadingStateDidChangeCount == 2)
         XCTAssertTrue(testObject.rowsArray.count == 0)
         XCTAssertTrue(testObject.errorAlertViewModel != nil)
         XCTAssertTrue(testObject.errorAlertViewModel == AlertViewModel(actionModels: [AlertViewModel.ActionModel(title: "OK", style: .cancel, handler: nil)],
