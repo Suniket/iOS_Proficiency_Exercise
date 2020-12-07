@@ -37,15 +37,15 @@ class MainViewModelTests: XCTestCase {
         testObject.refresh()
         
         //Then
-        XCTAssertTrue(delegate.loadingStateDidChangeCount == 1)
+        XCTAssertTrue(delegate.loadingStateDidChangeCount == 0)
         XCTAssertTrue(testObject.rowsArray.count == 0)
         XCTAssertTrue(testObject.errorAlertViewModel != nil)
-        XCTAssertTrue(testObject.errorAlertViewModel == AlertViewModel(actionModels: [AlertViewModel.ActionModel(title: "OK", style: .cancel, handler: nil)], title: "Error", message: "No JSON data available.", prefferedStyle: .alert))
+        XCTAssertTrue(testObject.errorAlertViewModel == AlertViewModel(actionModels: [AlertViewModel.ActionModel(title: "OK", style: .cancel, handler: nil)],
+                                                                       title: "Error",
+                                                                       message: "No JSON data available.",
+                                                                       prefferedStyle: .alert))
     }
-    
-    
 }
-
 
 class MockMainViewModelDelegate: MainViewModelDelegate {
     
