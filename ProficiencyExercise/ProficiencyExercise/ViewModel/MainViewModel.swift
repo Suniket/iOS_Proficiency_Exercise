@@ -43,35 +43,6 @@ class MainViewModel: NSObject {
         }
     }
     
-    ///  Responsible to return name of ViewController class.
-    var viewControllerClass: UIViewController.Type {
-        let className = NSStringFromClass(type(of: self))
-        
-        let possibleTypeName = className.replacingOccurrences(of: "ViewModel", with: "") + "ViewController"
-        if let type = NSClassFromString(possibleTypeName) as? UIViewController.Type {
-            return type
-        }
-        
-        var typeNamesSearched = [possibleTypeName]
-        
-        if let rangeOfStep = className.range(of: "ViewController"),
-            rangeOfStep.upperBound == className.endIndex,
-            rangeOfStep.lowerBound > className.startIndex {
-            let stepDroppedTypeName = String(className.dropLast(4) + "Controller")
-            if let type = NSClassFromString(stepDroppedTypeName) as? UIViewController.Type {
-                return type
-            }
-            typeNamesSearched.append(stepDroppedTypeName)
-        }
-        
-        let typeNamesSearchedString = typeNamesSearched.joined(separator: " or ")
-        assertionFailure("""
-            No `UIViewController` found with the name '\(typeNamesSearchedString)`.
-            """)
-        
-        return UIViewController.self
-    }
-    
     /// Refresh view.
     func refresh() {
         isLoading = true

@@ -23,11 +23,7 @@ class MainViewModelTests: XCTestCase {
     }
     
     override func tearDown() {}
-    
-    func testViewControllerClass() {
-        XCTAssertTrue(testObject.viewControllerClass == MainViewController.self)
-    }
-    
+
     func testRefresh() {
         
         //Given
